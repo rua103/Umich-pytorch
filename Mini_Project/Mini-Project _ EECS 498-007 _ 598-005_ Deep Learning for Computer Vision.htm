@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.7.1 -->
+<title>Mini-Project | EECS 498-007 / 598-005: Deep Learning for Computer Vision</title>
+<meta name="generator" content="Jekyll v4.0.1" />
+<meta property="og:title" content="Mini-Project" />
+<meta name="author" content="Justin Johnson" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Website for UMich EECS course" />
+<meta property="og:description" content="Website for UMich EECS course" />
+<link rel="canonical" href="https://web.eecs.umich.edu/~justincj/teaching/eecs498/WI2022/project.html" />
+<meta property="og:url" content="https://web.eecs.umich.edu/~justincj/teaching/eecs498/WI2022/project.html" />
+<meta property="og:site_name" content="EECS 498-007 / 598-005: Deep Learning for Computer Vision" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Mini-Project" />
+<script type="application/ld+json">
+{"headline":"Mini-Project","author":{"@type":"Person","name":"Justin Johnson"},"url":"https://web.eecs.umich.edu/~justincj/teaching/eecs498/WI2022/project.html","@type":"WebPage","description":"Website for UMich EECS course","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Roboto:400,300'>
+  
+  <link rel="stylesheet" href="https://web.eecs.umich.edu/~justincj/teaching/eecs498/assets/main.css">
+  <link type="application/atom+xml" rel="alternate" href="https://web.eecs.umich.edu/~justincj/teaching/eecs498/feed.xml" title="EECS 498-007 / 598-005: Deep Learning for Computer Vision" /><link rel="stylesheet" href="https://web.eecs.umich.edu/~justincj/teaching/eecs498/assets/mine.css">
+  <link rel="stylesheet" href="https://web.eecs.umich.edu/~justincj/teaching/eecs498/assets/mine.css">
+  <script>
+    window.MathJax = {
+      tex: {
+        tags: 'ams',
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+      }
+    };
+  </script>
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3.0.0/es5/tex-mml-chtml.js"></script>
+</head>
+<body><header class="site-header my-header" role="banner">
+  <img class='logo' src="https://web.eecs.umich.edu/~justincj/teaching/eecs498/assets/img/umich.png">
+  <div class="wrapper"><div class="my-title">
+        <a class="site-title" rel="author" href=".">
+          
+            EECS 498.008 / 598.008
+          
+          <br>
+          Deep Learning for Computer Vision
+        </a>
+        <div class="my-subtitle">
+          Winter 2022
+        </div>
+      </div>
+  </div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post">
+
+  <header class="post-header">
+    <h1 class="post-title">Mini-Project</h1>
+  </header>
+
+  <div class="post-content">
+    <ul>
+  <li><a href="#general-instructions">General Instructions</a></li>
+  <li>
+    <ul>
+      <li><a href="#proposing-your-own-project">Proposing your own project</a></li>
+    </ul>
+  </li>
+  <li><a href="#image-classification">Image Classification</a></li>
+  <li>
+    <ul>
+      <li><a href="#deliverables">Deliverables</a></li>
+    </ul>
+  </li>
+  <li><a href="#single-image-super-resolution">Single-Image Super-Resolution</a></li>
+  <li>
+    <ul>
+      <li><a href="#deliverables-1">Deliverables</a></li>
+    </ul>
+  </li>
+  <li><a href="#novel-view-synthesis-with-nerf">Novel View Synthesis with NeRF</a></li>
+  <li>
+    <ul>
+      <li><a href="#deliverables-2">Deliverables</a></li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="general-instructions">General Instructions</h2>
+<p>The goal of the mini-project is for you to implement an entire deep learning pipeline yourself: data loading, model design, training, evaluation, and analysis.</p>
+
+<p>Rather than writing a paper about your work, you will turn in a Colab / Jupyter notebook that interleaves written explanations of your project with runnable source code and results, similar in structure to the homework assignments. Also as with homework assignments, you must run all cells in your notebook to receive credit – we will not rerun your notebook.</p>
+
+<p>We expect that the written text and figures in your notebook will be similar in length to a 3-4 page paper, but there are no strict requirements on length.</p>
+
+<p>You should structure your code similar to the homework assignments, where the vast majority of your implementation is in .py files and the notebook only contains minimal driver code that calls into functions implemented in .py files.</p>
+
+<p>Your notebook should include the following sections:</p>
+<ul>
+  <li><strong>Introduction</strong>: Describe the problem you are trying to solve, why it is important or useful, and summarize any important pieces of prior work that you are building upon.</li>
+  <li><strong>Dataset</strong>: Describe the dataset or datasets you are working with. Show examples from the datasets. If you collected or constructed your own dataset, explain the process you used to collect the images and labels, and why you made the choices you did in the data collection process.</li>
+  <li><strong>Method</strong>: Describe the method you are using; this may also contain parts of the implementation of your model, loss function, or other components along with sanity checks to ensure that those components are correctly implemented, similar to the homework.</li>
+  <li><strong>Experiments</strong>: Describe the experiments you did, and key results that we requested for each project. This may interleave explanations of the experiments you run, code for running those experiments, and figures you generate as a result of those experiments.</li>
+  <li><strong>Conclusion / Future work</strong>: What did you learn in doing this project? What are the shortcomings or failure cases of your work? If you had more time or resources, how would you continue or expand upon the work you have already done?</li>
+</ul>
+
+<p>You should turn in a .zip file containing both your final notebook, along with all code you implemented. Your zip file should not include your training dataset; that would make the file too big!</p>
+
+<h4 id="open-source-code">Open Source Code</h4>
+<p>While there are many open source implementations for the problems described below, you should not use them for your implementation. You may refer to existing open-source implementations if you are confused about a specific detail, but you should neither import from nor copy code directly from existing implementations. Your implementation should only use standard libraries for scientific computing in python (numpy, scipy, matplotlib), pytorch, torchvision, and libraries specifically mentioned in the descriptions for each project. If you have questions about whether you should or should not use an existing library, please ask about it on Piazza.</p>
+
+<h4 id="proposing-your-own-project">Proposing your own project</h4>
+<p>We have prepared descriptions of several suggested projects for you. These are meant to be general guidelines; you don’t have to implement every single idea that we mention in these descriptions.</p>
+
+<p>If you would like to pursue a project of your own design, you should submit to us a written project proposal of roughly 1-2 pages that answers the following questions:</p>
+
+<ul>
+  <li>What goal or task are you trying to accomplish?</li>
+  <li>What are they key pieces of prior work that you will be following? This could be one or several papers that you plan to reimplement or build upon.</li>
+  <li>What data will you use for training and evaluation? If you are collecting your own dataset, where will it come from? Be concrete and specific.</li>
+  <li>What computational resources will you use? Will you use Colab, or do you have additional computational resources available to you?</li>
+  <li>How will you evaluate your results? What datasets or evaluation metrics will you use? How will you know if your model is working?</li>
+  <li>What are the key deliverables you plan to achieve? This should be a specific result, metric, or plot that you see as the primary outcome of your project. You will be evaluated on whether or not you actually achieve this goal.</li>
+</ul>
+
+<p>If you are proposing your own project, you should submit a project proposal by <strong>Friday April 1, 2022</strong>.
+Please make a private post on Piazza with the <code class="highlighter-rouge">project-proposal</code> tag to submit your proposal.
+Project proposals will not be graded, but we need to approve your proposed project to ensure that it will be feasible.</p>
+
+<h2 id="image-classification">Image Classification</h2>
+<p>In this course we have talked about a wide variety of tasks, models, and techniques. While it is exciting to learn about the latest models and ideas from cutting-edge academic research, these ideas are not very representative of the way that computer vision is often applied in practice. Academic research tends to focus on novel technical approaches, and typically shows results on standard benchmark datasets in order to provide fair comparisons with prior work.</p>
+
+<p>Real-world deployments of computer vision often change both of these assumptions: they tend to use simple “tried-and-true” ideas rather than complex state-of-the-art models; and they tend to use custom datasets catering to the problem at hand. In many real-world applications of computer vision, the task of building and curating datasets for training and evaluation takes much more time and effort than actually building the models.</p>
+
+<p>Of all the ideas we have discussed in the class, the most practically useful is image classification by transfer learning from a pretrained model. If you end up applying computer vision in your work in the future, this is likely to be the technique you will use. In this project you will build an image classification system as you might if faced with this problem in practice. You will collect your own image classification dataset, divide it into splits (train / val / test), and train classification models by transfer learning from networks pretrained on ImageNet. You will explore several options and hyperparameters, and analyze the performance of your trained networks.</p>
+
+<h4 id="papers-to-read">Papers to read</h4>
+<p>These are two of the earliest papers on transfer learning from deep convolutional networks, and should give some useful background on the problem:</p>
+
+<ul>
+  <li>Donahue et al, “DeCAF: A Deep Convolutional Activation Feature for Generic Visual Recognition”, ICML 2014. <a href="https://arxiv.org/abs/1310.1531">[arXiv link]</a></li>
+  <li>Razavian et al, “CNN Features off-the-shelf: an Astounding Baseline for Recognition”, CVPR Workshops 2014. <a href="https://arxiv.org/abs/1403.6382">[arXiv link]</a></li>
+</ul>
+
+<p>When analyzing a trained classification model, an attribution method attempts to determine which portion of an input image was responsible for a model’s decision. A few papers in this area to read are:</p>
+
+<ul>
+  <li>Simonyan et al, “Deep Inside Convolutional Networks: Visualising Image Classification Models and Saliency Maps”, ICLR Workshop 2014. <a href="https://arxiv.org/abs/1312.6034">[arXiv link]</a></li>
+  <li>Selvaraju et al, “Grad-CAM: Visual Explanations from Deep Networks via Gradient-based Localization”, IJCV 2019. <a href="https://arxiv.org/abs/1610.02391">[arXiv link]</a></li>
+  <li>Fong et al, “Understanding Deep Networks via Extremal Perturbations and Smooth Masks”, ICCV 2019. <a href="https://arxiv.org/abs/1910.08485">[arXiv link]</a></li>
+</ul>
+
+<h4 id="build-an-image-classification-dataset">Build an Image Classification Dataset</h4>
+<p>Your first task in this project is to collect your own image classification dataset for a classification task of your choice.</p>
+
+<p>You should first define a set of two or more categories into which you want to classify images. These can be coarse categories (e.g. dog/cat/fish, hotdog/not-hotdog) or fine-grained categories (e.g. Ragdoll cat/British Shorthair cat). You should get creative in the categories that you choose! You should decide whether your categories are mutually exclusive (an image will have exactly one correct label) or non-exclusive (an image may have zero or more correct category labels). Mutually-exclusive categories are simpler to handle and analyze, so we suggest that you try to come up with a set of mutually exclusive categories.</p>
+
+<p>Once you decide on a set of categories, you need to build a dataset by collecting images and labeling them. Larger datasets are likely to yield better results, but your dataset should have at least 100 images per category. You should get creative in the source of your images: you can take photos yourself, find images from the internet, or think of some other image source. However your images should not come from an existing computer vision dataset; we want you to go through the process of building your own dataset.</p>
+
+<p>After you collect and label your dataset, you should split it into train / val / test splits. A good rule of thumb for splitting datasets is allocating 70% of your data to train, 10% to val, and 20% to test.</p>
+
+<p>We expect that the process of building and labeling the dataset will be a large fraction of the work for this project.</p>
+
+<p>Your notebook should include a section that describes your classification task and your dataset. You should explain what classification task you are trying to solve, why it could be useful, and what the categories are. You should describe your process for collecting images and labeling them, and discuss any challenges you faced in constructing your dataset. Finally, you should show examples from your dataset to give a sense for the types of images it contains.</p>
+
+<p>Train an image classifier
+Once you have collected a dataset, it is time to train several models on this dataset. Rather than implementing standard convolutional network architectures yourself, you should use torchvision which provides <a href="https://pytorch.org/vision/stable/models.html#classification">a wide variety of commonly used models</a>. You are encouraged to compare multiple architectures, but as a first step we recommend using ResNet18, ResNet50, or a small RegNet model (e.g. RegNetY-400MF).</p>
+
+<p>You can consider three different ways of training a classifier:</p>
+<ul>
+  <li><strong>Train from scratch</strong>: Randomly initialize the model and train from scratch on your training set.</li>
+  <li><strong>Feature extraction</strong>: Initialize the model using weights pretrained on ImageNet; extract features from the model and train a linear model on top of extracted features. This can be implemented in several ways: you can use PyTorch to add a new layer onto the model, freeze all but the last layer, and train in PyTorch; you could also extract features from the model and save them in some format, then train a linear classifier with another package such as scikit-learn.</li>
+  <li><strong>Fine-Tuning</strong>: Initialize the model using weights pretrained on ImageNet; fine-tune the entire model on your training set. This should perform at least as well as feature extraction.</li>
+</ul>
+
+<p>You may need to experiment with different optimizers, learning rates, L2 regularization strengths, and data augmentation strategies. You should train at least 6 different models, and report their accuracy on both the train and val sets.</p>
+
+<p>You should show training curves for your models. You should plot the training loss per iteration, as well as the accuracy of the model on the train and val sets every epoch (pass through the training data).</p>
+
+<p>You can try using test-time augmentation or model ensembling to improve upon the classification performance of your individual models.</p>
+
+<p>Your notebook should explain the models you chose, explain any experiments you performed, and show the results described above.</p>
+
+<h4 id="analyze-your-models">Analyze your models</h4>
+<p>After you have trained your models, you should analyze them to try and gain insight into how well they are working and where they make mistakes. You should analyze at least two different models: your best-performing model and at least one other of your choice.</p>
+
+<p>You should show the following:</p>
+<ul>
+  <li><strong>Qualitative examples</strong> of images that were both correctly classified and incorrectly classified. You can show both images hand-picked by you to showcase interesting features of your model, and randomly-chosen images to give a better sense of the average performance of your model.</li>
+  <li><strong>Confusion matrices</strong>: A 2D matrix of predicted category vs ground-truth category, where each entry shows the fraction of val-set images falling into this situation; this demonstrates the kinds of mistakes that your model makes.</li>
+  <li><strong>Attribution methods</strong>: Use one or more attribution methods to give examples of what portions of images are used by the model for classification decisions.</li>
+</ul>
+
+<p>Your notebook should include sections that describe and show each of the above methods of analysis, as well as any other type of analysis you perform.</p>
+
+<h4 id="run-on-the-test-set">Run on the test set</h4>
+<p>After all your analysis, you should run your best-performing model on the test set. If your model performs very differently on the val and test sets then you should attempt to explain why that might be the case.</p>
+
+<h4 id="deliverables">Deliverables</h4>
+<p>To summarize, in this project we expect you to:</p>
+<ul>
+  <li>Create your own image classification dataset with at least 100 images per category. In your notebook, discuss the classification problem you chose to solve, and how you went about collecting the dataset. Show example images from the dataset.</li>
+  <li>Train at least 6 different image classification models on your dataset; in your notebook, show training curves for each model (training loss, train and val accuracy during training). You should also include a table that summarizes the final train and val accuracies of all your models. You can be creative in exactly what models you choose to train; but you must include at least one transfer learning result (feature extraction or finetuning from a model pretrained on ImageNet) and at least one result where you train the same CNN architecture from scratch on your dataset.</li>
+  <li>In your notebook, analyze at least two of your trained models by showing qualitative examples, confusion matrices, and results from at least one attribution method on several images.</li>
+</ul>
+
+<h2 id="single-image-super-resolution">Single-Image Super-Resolution</h2>
+<p>In the task of single-image super-resolution, a network receives as input a low-resolution image and it produces as output a higher-resolution version of the image. This is in general an underspecified problem – there are many possible high-resolution images that could correspond to the same low-resolution image. However, by training on datasets of corresponding high- and low-resolution images, a neural network can learn priors about the visual world that let it predict a plausible high-resolution output for any low-resolution input.</p>
+
+<p>Similar to semantic segmentation, we can use a fully convolutional network to build a model for single-image super-resolution. The input to the model is a low-resolution image of shape 3 x H x W; the image goes through a series of convolution layers and upsampling layers (nearest-neighbor or bilinear upsampling, or transpose convolution) and eventually outputs a high-resolution output of shape 3 x fH x fW where f is the super-resolution factor; typically we have f=2, f=3, or f=4. During training the network output is compared with the true ground-truth output using an L2, L1, or some other loss function.</p>
+
+<p>Your goal in this project is to implement and train a convolutional network for single-image super-resolution. You should train models for at least two super-resolution factors (f=2 and one other of your choice).</p>
+
+<h4 id="papers-to-read-1">Papers to read</h4>
+<ul>
+  <li><strong>SRCNN</strong>: Dong et al, “Image super-resolution using deep convolutional networks”, TPAMI 2015. <a href="https://arxiv.org/abs/1501.00092">[arXiv link]</a></li>
+  <li><strong>FSRCNN</strong>: Dong et al, “Accelerating the super-resolution convolutional neural network”, ECCV 2016. <a href="https://arxiv.org/abs/1608.00367">[arXiv link]</a></li>
+  <li><strong>SRGAN</strong>: Ledig et al, “Photo-Realistic Single Image Super-Resolution using a Generative Adversarial Network”, CVPR 2017. <a href="https://arxiv.org/abs/1609.04802">[arXiv link]</a></li>
+</ul>
+
+<h4 id="data">Data</h4>
+<p>You can train your model on any image dataset that you choose; the ImageNet or COCO datasets are popular choices. Super-resolution generally does not need very large datasets for training; for example FSRCNN trains on a dataset of 100 images called General100 (available here http://mmlab.ie.cuhk.edu.hk/projects/FSRCNN.html); you might find this dataset useful for your own implementation as well. See Section 4.1 of the FSRCNN paper for more details on how to prepare your training dataset.</p>
+
+<p>You should evaluate your model on the Set5 and Set14 datasets. During evaluation, the precise way that you prepare the low-resolution and high-resolution images is important; for this reason you should use the versions of the Set5 and Set14 dataset from <a href="https://github.com/jbhuang0604/SelfExSR/tree/master/data">this GitHub repository by Jia-Bin Huang</a>. Note that there are different versions of the datasets for each super-resolution factor.</p>
+
+<h4 id="model">Model</h4>
+<p>You should implement a model similar to SRCNN or FSRCNN; follow the details in the papers as closely as you can.</p>
+
+<p>As an optional extension, you may also consider using a generative adversarial network for super-resolution as described in the SRGAN paper. Training the model adversarially against a learned discriminator can produce images of higher perceptual quality, but with slightly lower PSNR or SSIM compared with a model trained using L2 or L1 losses alone.</p>
+
+<p>Your notebook should include a section that describes your model architecture, training losses, and any other important implementation details of your model. You should experiment with different optimizers, training losses, model architectures, or other variations you can think of. You should show results for at least two different model variants for each super-resolution factor you consider.</p>
+
+<h4 id="evaluation">Evaluation</h4>
+<p>You should evaluate your model both on unseen images from your training dataset, and also on the Set5 and Set14 datasets. You may optionally choose to report additional results on the BSD100 or Urban100 datasets.</p>
+
+<p>You should evaluate your models using peak signal-to-noise ratio (PSNR) and structural similarity (SSIM). You can use the <a href="https://scikit-image.org/docs/stable/api/skimage.metrics.html">implementations of these metrics from scikit-image</a>.</p>
+
+<p>You should compare your model against bilinear and bicubic upsampling; you can use <a href="https://scikit-image.org/docs/dev/api/skimage.transform.html#skimage.transform.resize">scikit-image for this</a>. Your best model should outperform both of these simple baselines for all super-resolution factors you consider.</p>
+
+<p>Concretely, for super-resolution factor 2 you should achieve PSNR of at least 34 on Set5; for super-resolution factor 3 you should achieve PSNR of at least 31 on Set5; and for super-resolution factor 4 you should achieve PSNR of at least 29 on Set5.</p>
+
+<h4 id="color-channels">Color Channels</h4>
+<p>One important detail of super-resolution methods is the color channel that the model uses for training and evaluation. So far in this course all images have been represented using the standard RGB color space; however there are other color spaces that are commonly used to represent images. One important color space is YCbCr. In this color space, Y is a grayscale color channel (luma) and Cb and Cr are two channels giving the color of the image (chroma). You can convert between RGB and YCbCr <a href="https://scikit-image.org/docs/dev/api/skimage.color.html#skimage.color.rgb2ycbcr">using functions from scikit-image</a>.</p>
+
+<p>For single-image super-resolution, a common setup is to transform the image from RGB to YCbCr color space; the neural network receives the low-resolution Y channel and predicts a high-resolution Y channel, while the Cb and Cr channels are upsampled using bicubic interpolation. The training loss compares the predicted and ground-truth Y channels, and during evaluation we compute PSNR and SSIM between the predicted and ground-truth Y channels. You should follow this convention in your implementation. 
+It is also possible to train super-resolution models using color inputs and outputs; see Section 4.5 of the SRCNN paper for more details. You may optionally perform additional experiments on additional color channels.</p>
+
+<h4 id="deliverables-1">Deliverables</h4>
+<p>To summarize, in this project we expect you to:</p>
+<ul>
+  <li>Implement models for single-image super-resolution.
+You should train models for at least two different super-resolution factors (2x, 3x, or 4x). For each model you should show training curves (loss on the train set, and PSNR on a held-out val set over the course of training). For each model you should report performance on the Set5 and Set14 datasets using PSNR and SSIM.</li>
+  <li>You should compare against bilinear and bicubic upsampling, and your model should outperform these baselines.</li>
+  <li>For super-resolution factors 2x / 3x / 4x, you should achieve PSNR on Set5 of at least 34 / 31 / 29.</li>
+  <li>You should show qualitative results: show the low-resolution image, ground-truth high-resolution image, and predicted high-resolution image from each method you consider (your models and bilinear / bicubic) for several examples from a held-out val set, as well as for each image in Set5.</li>
+</ul>
+
+<h2 id="novel-view-synthesis-with-nerf">Novel View Synthesis with NeRF</h2>
+<p>In the task of novel view synthesis, your training set consists of a set of images of a scene where you know the camera parameters (intrinsic and extrinsic) for each image. Your goal is to build a model that can synthesize images showing the scene from new viewpoints unseen in the training set.</p>
+
+<p>Over the past two years, Neural Radiance Fields (NeRFs) have emerged as a simple and powerful model for this problem. NeRFs rely on the idea of volume rendering: to determine the color of a pixel, we shoot a ray originating from the camera center through the pixel and into the scene; for a set of points along the ray, we compute both the color and opacity of the 3D scene. Integrating the influence of these points gives the color of the pixel. The original NeRF paper [Mildenhall et al, ECCV 2020] proposed to train a fully-connected neural network that inputs (x, y, z) and a viewing direction, and outputs the RGB color and opacity of the 3D scene at that point. This network is trained to reproduce the pixel values of the training images; during inference, the network can be used to synthesize the color of pixels in novel views unseen during training.</p>
+
+<p>The goal of this project is to implement a NeRF model and reproduce some of the main results from the original NeRF paper. You may optionally also incorporate ideas from some followup papers.</p>
+
+<p>Note that this project is likely to involve a more complex implementation than the other two suggested projects. It is also intended to be somewhat open-ended; while the goal is to re-implement NeRF, you can be creative in exactly what results you show, and how you deviate from the original NeRF paper.</p>
+
+<h4 id="papers-to-read-2">Papers to read</h4>
+<ul>
+  <li>Mildenhall et al, “NeRF: Representing Scenes as Neural Radiance Fields for View Synthesis”, ECCV 2020. <a href="https://arxiv.org/abs/2003.08934">[arXiv link]</a></li>
+  <li>Barron et al, “Mip-NeRF: A Multiscale Representation for Anti-Aliasing Neural Radiance Fields”, ICCV 2021. <a href="https://arxiv.org/abs/2103.13415">[arXiv link]</a></li>
+</ul>
+
+<h4 id="model-1">Model</h4>
+<p>You should re-implement the model from the original NeRF paper. Their model takes roughly 1-2 days to converge on a single V100 GPU, so an exact re-implementation is likely not feasible given the computational resources available to you on Colab. You might consider the following simplifications or modifications to the original NeRF model that could allow for faster training at the expense of worse results:</p>
+
+<ul>
+  <li><strong>Smaller MLP</strong>: The paper uses an 8-layer MLP with 256 hidden units per layer (See Appendix A). Using a shallower or narrower model may allow for faster convergence.</li>
+  <li><strong>No hierarchical sampling</strong>: As discussed in Section 5.2, NeRF trains separate coarse and fine models. They first sample points uniformly along rays using stratified sampling and evaluate the coarse model at these points; the predicted densities are then used to sample a second set of points in regions of high density to be evaluated by the fine model. To simplify and speed up your implementation, you might use only a coarse model.</li>
+  <li><strong>Fewer samples per ray</strong>: NeRF trains using 64 coarse samples and 128 fine samples for each ray; using fewer samples per ray during training may allow for faster training.</li>
+  <li><strong>Shorter training schedule</strong>: NeRF trains with a batch size of 4096 rays and trains for 100k to 300k iterations; you may be able to achieve reasonable results while training with a smaller batch size or for fewer iterations.</li>
+  <li><strong>Lower resolution images</strong>: NeRF uses fairly high-resolution images for training: 800x800 images for synthetic scenes, and 1008x756 images for real scenes. Rather than using these images at their original resolution, downsampling images during training (by a factor of 2x, 4x, or 8x) will likely allow for faster convergence.</li>
+</ul>
+
+<p>If you are feeling ambitious, you might also incorporate ideas from Mip-NeRF into your model, or try some novel ideas of your own design. Whatever variants of models you experiment with, describe them in your notebook. You can compare runtime and convergence speed (plot test-set PSNR vs training epoch) for different model variants you implement.</p>
+
+<h4 id="evaluation-1">Evaluation</h4>
+<p>You should show results on at least two different scenes using the datasets from the NeRF paper, <a href="https://www.matthewtancik.com/nerf">available here</a>. You should evaluate your results using PSNR and SSIM on test-set images. You likely won’t be able to match the performance reported in the NeRF paper, but you should compare with them nevertheless as an upper-bound on your performance.</p>
+
+<h4 id="deliverables-2">Deliverables</h4>
+<p>To summarize, in this method we expect you to:</p>
+<ul>
+  <li>Re-implement the method from the NeRF paper. Rather than exactly re-implementing their method, you should use some of the suggested modifications (or others of your own design) above to try and reduce the training time. You should fully describe any changes you make to the basic NeRF algorithm.</li>
+  <li>You should show results on at least two scenes used in the NeRF paper. For each scene, you should show training curves from your model (training losses and PSNR on at least one image from a held-out val set). You should also show qualitative results from each method: show several examples of a ground-truth image and your predicted image, both from training set views and novel test-set views.</li>
+  <li>Show at least one video result, where you generate images along a continuously moving camera path, similar to the examples <a href="https://www.matthewtancik.com/nerf">on the NeRF project page</a>.</li>
+</ul>
+
+  </div>
+
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <h2 class="footer-heading">EECS 498-007 / 598-005: Deep Learning for Computer Vision</h2>
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-1">
+        <ul class="contact-list">
+          <li class="p-name">Justin Johnson</li><li><a class="u-email" href="mailto:justincj@umich.edu">justincj@umich.edu</a></li></ul>
+      </div>
+
+      <div class="footer-col footer-col-2"><ul class="social-media-list"></ul>
+</div>
+
+      <div class="footer-col footer-col-3">
+        <p>Website for UMich EECS course</p>
+      </div>
+    </div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>
