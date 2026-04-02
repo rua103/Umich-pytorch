@@ -365,7 +365,8 @@ def nn_predict(
     # TODO: Implement this function; it should be VERY simple!                #
     ###########################################################################
     # Replace "pass" statement with your code
-    pass
+    scores, _ = nn_forward_pass(params, X)
+    y_pred = torch.argmax(scores, dim=1)
     ###########################################################################
     #                              END OF YOUR CODE                           #
     ###########################################################################
@@ -399,7 +400,10 @@ def nn_get_search_params():
     # classifier.                                                             #
     ###########################################################################
     # Replace "pass" statement with your code
-    pass
+    learning_rates = [1e-2, 3e-2, 1e-1]
+    hidden_sizes = [128, 256, 512]
+    regularization_strengths = [1e-4, 1e-3, 1e-2]
+    learning_rate_decays = [0.95, 1.0]
     ###########################################################################
     #                           END OF YOUR CODE                              #
     ###########################################################################
@@ -460,9 +464,30 @@ def find_best_net(
     # automatically like we did on the previous exercises.                      #
     #############################################################################
     # Replace "pass" statement with your code
-    pass
-    #############################################################################
-    #                               END OF YOUR CODE                            #
-    #############################################################################
+    learning_rates, hidden_sizes, regularization_strengths, learning_rate_decays = get_param_set_fn()
+
+    for lr in learning_rates:
+        for hs in hidden_sizes:
+            for reg in regularization_strengths:
+                for lr_decay in learning_rate_decays:
+                    net = TwoLayerNet(
+                        data_dict['X_train'].shape[1], hs,
+                        int(data_dict['y_train'].max().item()) + 1
+                    )
+                    stat = net.train(
+                        data_dict['X_train'], data_dict['y_train'],
+                        data_dict['X_val'], data_dict['y_val'],
+                        learning_rate=lr,
+                        learning_rate_decay=lr_decay,
+                        reg=reg,
+                        num_iters=2000,
+                        batch_size=200,
+                        verbose=False,
+                    )
+                    val_acc = stat['val_acc_history'][-1]
+                    if val_acc > best_val_acc:
+                        best_val_acc = val_acc
+                        best_net = net
+                        best_stat = stat
 
     return best_net, best_stat, best_val_acc
