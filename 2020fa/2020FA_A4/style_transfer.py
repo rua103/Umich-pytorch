@@ -30,8 +30,7 @@ def content_loss(content_weight, content_current, content_original):
     ##############################################################################
     # TODO: Compute the content loss for style transfer.                         #
     ##############################################################################
-    # Replace "pass" statement with your code
-    pass
+    return content_weight * torch.sum((content_current - content_original) ** 2)
     ##############################################################################
     #                               END OF YOUR CODE                             #
     ##############################################################################
@@ -56,8 +55,11 @@ def gram_matrix(features, normalize=True):
     # TODO: Compute the Gram matrix from features.                               #
     # Don't forget to implement for both normalized and non-normalized version   #
     ##############################################################################
-    # Replace "pass" statement with your code
-    pass
+    N, C, H, W = features.shape
+    features_flat = features.reshape(N, C, H * W)
+    gram = torch.bmm(features_flat, features_flat.transpose(1, 2))
+    if normalize:
+      gram /= (C * H * W)
     ##############################################################################
     #                               END OF YOUR CODE                             #
     ##############################################################################
@@ -88,8 +90,10 @@ def style_loss(feats, style_layers, style_targets, style_weights):
     # not be very much code (~5 lines).                                          #
     # You will need to use your gram_matrix function.                            #
     ##############################################################################
-    # Replace "pass" statement with your code
-    pass
+    loss = 0
+    for i, layer in enumerate(style_layers):
+      loss += style_weights[i] * torch.sum((gram_matrix(feats[layer]) - style_targets[i]) ** 2)
+    return loss
     ##############################################################################
     #                               END OF YOUR CODE                             #
     ##############################################################################
@@ -111,8 +115,9 @@ def tv_loss(img, tv_weight):
     # TODO: Compute total variation loss.                                        #
     # Your implementation should be vectorized and not require any loops!        #
     ##############################################################################
-    # Replace "pass" statement with your code
-    pass
+    vertical = img[:, :, 1:, :] - img[:, :, :-1, :]
+    horizontal = img[:, :, :, 1:] - img[:, :, :, :-1]
+    return tv_weight * (torch.sum(vertical ** 2) + torch.sum(horizontal ** 2))
     ##############################################################################
     #                               END OF YOUR CODE                             #
     ##############################################################################

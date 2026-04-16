@@ -63,8 +63,9 @@ def three_layer_convnet(x, params):
   # 5. Fully-connected layer (with bias) to compute scores for 10 classes    
   # Hint: F.linear, F.conv2d, F.relu, flatten (implemented above)                                   
   ##############################################################################
-  # Replace "pass" statement with your code
-  pass
+  x = F.relu(F.conv2d(x, conv_w1, conv_b1, padding=2))
+  x = F.relu(F.conv2d(x, conv_w2, conv_b2, padding=1))
+  scores = F.linear(flatten(x), fc_w, fc_b)
   ##############################################################################
   #                                 END OF YOUR CODE                             
   ##############################################################################
@@ -104,8 +105,21 @@ def initialize_three_layer_conv_part2(dtype=torch.float, device='cpu'):
   # using the zero_weight function.                         
   # You are given all the necessary variables above for initializing weights. 
   ##############################################################################
-  # Replace "pass" statement with your code
-  pass
+  conv_w1 = nn.init.kaiming_normal_(torch.empty(channel_1, C, kernel_size_1, kernel_size_1, device=device, dtype=dtype), nonlinearity='relu')
+  conv_w1.requires_grad_()
+
+  conv_b1 = torch.zeros(channel_1, dtype=dtype, device=device, requires_grad=True)
+
+  conv_w2 = nn.init.kaiming_normal_(torch.empty(channel_2, channel_1, kernel_size_2, kernel_size_2, device=device, dtype=dtype), nonlinearity='relu')
+  conv_w2.requires_grad_()
+
+  conv_b2 = torch.zeros(channel_2, dtype=dtype, device=device, requires_grad=True)
+
+  fc_w = nn.init.kaiming_normal_(torch.empty(num_classes, channel_2 * H * W, device=device, dtype=dtype), nonlinearity='relu')
+  fc_w.requires_grad_()
+
+  fc_b = torch.zeros(num_classes, device=device, dtype=dtype, requires_grad=True)
+  fc_b = nn.init.zeros_(torch.empty(num_classes, device=device, dtype=dtype))
   ##############################################################################
   #                                 END OF YOUR CODE                            
   ##############################################################################
@@ -139,8 +153,16 @@ class ThreeLayerConvNet(nn.Module):
     #                                         
     # HINT: nn.Conv2d, nn.init.kaiming_normal_, nn.init.zeros_            
     ############################################################################
-    # Replace "pass" statement with your code
-    pass
+    self.conv1 = nn.Conv2d(in_channel, channel_1, kernel_size=5, padding=2)
+    self.conv2 = nn.Conv2d(channel_1, channel_2, kernel_size=3, padding=1)
+    self.fc = nn.Linear(channel_2 * 32 * 32, num_classes)
+
+    nn.init.kaiming_normal_(self.conv1.weight, nonlinearity='relu')
+    nn.init.zeros_(self.conv1.bias)
+    nn.init.kaiming_normal_(self.conv2.weight, nonlinearity='relu')
+    nn.init.zeros_(self.conv2.bias)
+    nn.init.kaiming_normal_(self.fc.weight, nonlinearity='relu')
+    nn.init.zeros_(self.fc.bias)
     ############################################################################
     #                           END OF YOUR CODE                            
     ############################################################################
@@ -153,8 +175,9 @@ class ThreeLayerConvNet(nn.Module):
     # connectivity of those layers in forward()   
     # Hint: flatten (implemented at the start of part II)                          
     ############################################################################
-    # Replace "pass" statement with your code
-    pass
+    x = F.relu(self.conv1(x))
+    x = F.relu(self.conv2(x))
+    scores = self.fc(flatten(x))
     ############################################################################
     #                            END OF YOUR CODE                          
     ############################################################################
@@ -185,8 +208,8 @@ def initialize_three_layer_conv_part3():
   # You should train the model using stochastic gradient descent without       
   # momentum, with L2 weight decay of 1e-4.                    
   ##############################################################################
-  # Replace "pass" statement with your code
-  pass
+  model = ThreeLayerConvNet(C, channel_1, channel_2, num_classes)
+  optimizer = optim.SGD(model.parameters(), lr=learning_rate, weight_decay=weight_decay)
   ##############################################################################
   #                                 END OF YOUR CODE                            
   ##############################################################################
@@ -243,8 +266,16 @@ def initialize_three_layer_conv_part4():
   # momentum 0.5, with L2 weight decay of 1e-4 as given in the variables above.   
   # Hint: nn.Sequential, Flatten (implemented at the start of Part IV)   
   ####################################################################################
-  # Replace "pass" statement with your code
-  pass
+  model = nn.Sequential(
+      nn.Conv2d(C, channel_1, kernel_size=kernel_size_1, padding=pad_size_1),
+      nn.ReLU(),
+      nn.Conv2d(channel_1, channel_2, kernel_size=kernel_size_2, padding=pad_size_2),
+      nn.ReLU(),
+      Flatten(),
+      nn.Linear(channel_2 * H * W, num_classes),
+  )
+  optimizer = optim.SGD(model.parameters(), lr=learning_rate, momentum=momentum,
+                        weight_decay=weight_decay, nesterov=True)
   ################################################################################
   #                                 END OF YOUR CODE                             
   ################################################################################
@@ -270,8 +301,15 @@ class PlainBlock(nn.Module):
     # - downsample: add downsampling (a conv with stride=2) if True            
     # Store the result in self.net.                                            
     ############################################################################
-    # Replace "pass" statement with your code
-    pass
+    stride = 2 if downsample else 1
+    self.net = nn.Sequential(
+        nn.BatchNorm2d(Cin),
+        nn.ReLU(),
+        nn.Conv2d(Cin, Cout, kernel_size=3, stride=stride, padding=1, bias=False),
+        nn.BatchNorm2d(Cout),
+        nn.ReLU(),
+        nn.Conv2d(Cout, Cout, kernel_size=3, stride=1, padding=1, bias=False),
+    )
     ############################################################################
     #                                 END OF YOUR CODE                         #
     ############################################################################
@@ -294,8 +332,12 @@ class ResidualBlock(nn.Module):
     # - downsample: add downsampling (a conv with stride=2) if True            #
     # Store the main block in self.block and the shortcut in self.shortcut.    #
     ############################################################################
-    # Replace "pass" statement with your code
-    pass
+    self.block = PlainBlock(Cin, Cout, downsample)
+    if downsample or Cin != Cout:
+      stride = 2 if downsample else 1
+      self.shortcut = nn.Conv2d(Cin, Cout, kernel_size=1, stride=stride, bias=False)
+    else:
+      self.shortcut = nn.Identity()
     ############################################################################
     #                                 END OF YOUR CODE                         #
     ############################################################################
@@ -314,8 +356,13 @@ class ResNet(nn.Module):
     #       ResNetStage, and wrap the modules by nn.Sequential.                #
     # Store the model in self.cnn.                                             #
     ############################################################################
-    # Replace "pass" statement with your code
-    pass
+    layers = [ResNetStem(Cin, stage_args[0][0])]
+    for Cin_stage, Cout_stage, num_blocks, downsample in stage_args:
+      layers.append(
+        ResNetStage(Cin_stage, Cout_stage, num_blocks,
+                    downsample=downsample, block=block)
+      )
+    self.cnn = nn.Sequential(*layers)
     ############################################################################
     #                                 END OF YOUR CODE                         #
     ############################################################################
@@ -327,8 +374,9 @@ class ResNet(nn.Module):
     # TODO: Implement the forward function of ResNet.                          #
     # Store the output in `scores`.                                            #
     ############################################################################
-    # Replace "pass" statement with your code
-    pass
+    x = self.cnn(x)
+    x = x.mean(dim=(2, 3))
+    scores = self.fc(x)
     ############################################################################
     #                                 END OF YOUR CODE                         #
     ############################################################################
@@ -349,8 +397,23 @@ class ResidualBottleneckBlock(nn.Module):
     # - downsample: add downsampling (a conv with stride=2) if True            #
     # Store the main block in self.block and the shortcut in self.shortcut.    #
     ############################################################################
-    # Replace "pass" statement with your code
-    pass
+    stride = 2 if downsample else 1
+    bottleneck = Cout // 4
+    self.block = nn.Sequential(
+        nn.BatchNorm2d(Cin),
+        nn.ReLU(),
+        nn.Conv2d(Cin, bottleneck, kernel_size=1, stride=stride, bias=False),
+        nn.BatchNorm2d(bottleneck),
+        nn.ReLU(),
+        nn.Conv2d(bottleneck, bottleneck, kernel_size=3, stride=1, padding=1, bias=False),
+        nn.BatchNorm2d(bottleneck),
+        nn.ReLU(),
+        nn.Conv2d(bottleneck, Cout, kernel_size=1, stride=1, bias=False),
+    )
+    if downsample or Cin != Cout:
+      self.shortcut = nn.Conv2d(Cin, Cout, kernel_size=1, stride=stride, bias=False)
+    else:
+      self.shortcut = nn.Identity()
     ############################################################################
     #                                 END OF YOUR CODE                         #
     ############################################################################

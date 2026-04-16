@@ -46,8 +46,10 @@ def compute_saliency_maps(X, y, model):
   # the gradients with a backward pass.                                        #
   # Hint: X.grad.data stores the gradients                                     #
   ##############################################################################
-  # Replace "pass" statement with your code
-  pass
+  scores = model(X)
+  correct_scores = scores.gather(1, y.view(-1, 1)).sum()
+  correct_scores.backward()
+  saliency = X.grad.abs().max(dim=1)[0]
   ##############################################################################
   #               END OF YOUR CODE                                             #
   ##############################################################################
@@ -87,8 +89,26 @@ def make_adversarial_attack(X, target_y, model, max_iter=100, verbose=True):
   # attack in fewer than 100 iterations of gradient ascent.                    #
   # You can print your progress over iterations to check your algorithm.       #
   ##############################################################################
-  # Replace "pass" statement with your code
-  pass
+  for i in range(max_iter):
+    scores = model(X_adv)
+    pred = scores.argmax(dim=1).item()
+    target_score = scores[0, target_y]
+    max_score = scores[0, pred].item()
+
+    if verbose:
+      print('Iteration %d: target score %.3f, max score %.3f' % (
+          i, target_score.item(), max_score))
+
+    if pred == target_y:
+      break
+
+    if X_adv.grad is not None:
+      X_adv.grad.zero_()
+    target_score.backward()
+
+    with torch.no_grad():
+      grad = X_adv.grad
+      X_adv += learning_rate * grad / grad.norm()
   ##############################################################################
   #                             END OF YOUR CODE                               #
   ##############################################################################
@@ -122,8 +142,13 @@ def class_visualization_step(img, target_y, model, **kwargs):
     # the generated image using gradient ascent & reset img.grad to zero   #
     # after each step.                                                     #
     ########################################################################
-    # Replace "pass" statement with your code
-    pass
+    if img.grad is not None:
+      img.grad.zero_()
+    score = model(img)[0, target_y] - l2_reg * torch.sum(img * img)
+    score.backward()
+    with torch.no_grad():
+      img += learning_rate * img.grad
+    img.grad.zero_()
     ########################################################################
     #                             END OF YOUR CODE                         #
     ########################################################################
