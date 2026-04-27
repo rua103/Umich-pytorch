@@ -1,152 +1,307 @@
 # EECS 498-007 / 598-005: Deep Learning for Computer Vision
 
-> University of Michigan — 作业代码仓库
+> University of Michigan — 作业代码仓库总览
 
-本仓库包含课程全部作业（A1–A6）及 Mini Project 的实现代码，使用 **PyTorch** 完成。
+本仓库包含课程全部作业（A1–A6）及 Mini Project 的实现代码，主目录 `README.md` 用于记录**整体大纲 / 学习路线 / 每个子作业笔记入口**；更细的推导、难点、易错点放在各子目录自己的 README 里。
 
 ---
 
 ## 目录结构
 
-```
+```text
 UMICH/
 ├── A1/           K-Nearest Neighbor & PyTorch 入门
 ├── A2/           线性分类器（SVM / Softmax）& 两层网络
 ├── A3/           全连接网络 & 卷积神经网络
-├── A4/           目标检测（单阶段 & 双阶段）
+├── 2020FA_A4/    Autograd、CNN、ResNet、可视化、风格迁移、Captioning
 ├── A5/           RNN / LSTM / Transformer 图像描述
-├── A6/           生成模型（GAN / VAE / 风格迁移 / 网络可视化）
+├── A6/           生成模型（VAE / CVAE / GAN / DCGAN）
 └── Mini_Project/ 课程 Mini Project
 ```
 
 ---
 
-## 各作业简介
+## 仓库使用说明
+
+本文件只做三件事：
+
+1. 说明每个作业在学什么
+2. 给出复习主线和学习路线
+3. 链接到各子作业自己的笔记 README
+
+如果要看：
+
+- 数学推导
+- 代码实现细节
+- 难点总结
+- 易错点清单
+
+请优先进入对应作业文件夹查看各自 README。
+
+---
+
+## 各作业概览与笔记入口
 
 ### A1 — K-Nearest Neighbor & PyTorch 101
 
-| 文件 | 内容 |
-|------|------|
-| `knn.py` | KNN 分类器：计算 L2 距离（两层循环 / 单层循环 / 向量化），交叉验证选 K |
-| `pytorch101.py` | PyTorch 基础操作练习 |
+**主题：**
+- KNN 分类器
+- PyTorch Tensor 基础操作
+- 向量化思维入门
 
-**核心知识点：**
-- L2 距离的向量化计算（广播 + 矩阵运算）
-- KNN 的时间复杂度与向量化加速
-- PyTorch Tensor 基本操作
+**核心能力：**
+- L2 距离的向量化计算
+- 广播与矩阵运算
+- 张量索引、切片与 reshape
+- 从循环实现过渡到批量张量实现
+
+**主要文件：**
+- `A1/knn.py`
+- `A1/pytorch101.py`
+
+**子作业笔记：**
+- `A1/README.md`
+
+**这份笔记重点覆盖：**
+- KNN 从双循环到零循环的实现主线
+- `topk` 投票与交叉验证选 `k`
+- PyTorch 基础索引、布尔掩码与 reshape
+- batched matrix multiply 与向量化思维
 
 ---
 
 ### A2 — 线性分类器 & 两层网络
 
-| 文件 | 内容 |
-|------|------|
-| `linear_classifier.py` | SVM Hinge Loss（naive + vectorized）、Softmax Loss（naive + vectorized）、SGD 训练循环 |
-| `two_layer_net.py` | 两层全连接网络前向传播、反向传播（手动推导梯度） |
+**主题：**
+- Structured SVM
+- Softmax
+- Two-Layer Network
+- SGD 训练
 
-**核心知识点：**
-- Structured SVM：Hinge Loss + Mask 梯度
-- Softmax：数值稳定、交叉熵、`prob - onehot` 梯度
-- 手动反向传播（链式法则）
-- SGD + minibatch 训练
+**核心能力：**
+- Loss 函数设计
+- 手动梯度推导
+- 向量化实现
+- 基础神经网络训练流程
 
-> 详细推导见 [`A2/README.md`](A2/README.md)
+**主要文件：**
+- `A2/linear_classifier.py`
+- `A2/two_layer_net.py`
+
+**子作业笔记：**
+- `A2/README.md`
+
+**这份笔记重点覆盖：**
+- SVM 向量化实现
+- Softmax 数值稳定
+- mask 梯度写法
+- 两层网络训练主线
 
 ---
 
 ### A3 — 全连接网络 & 卷积神经网络
 
-| 文件 | 内容 |
-|------|------|
-| `fully_connected_networks.py` | 任意深度全连接网络、Dropout、BatchNorm、各种优化器（SGD/Adam/RMSProp） |
-| `convolutional_networks.py` | 卷积层、池化层、空间BatchNorm、CNN 分类器 |
+**主题：**
+- 多层全连接网络
+- Dropout / BatchNorm
+- 优化器
+- CNN 前向与反向
 
-**核心知识点：**
-- 模块化网络设计（Layer 抽象）
-- Dropout / BatchNorm 的前向与反向
-- Adam、RMSProp 优化器实现
-- 卷积的 naive 与 fast 实现
+**核心能力：**
+- 模块化搭建深层网络
+- forward / backward 串联
+- 卷积与池化的 shape 推导
+- 优化器实现与训练稳定性
+
+**主要文件：**
+- `A3/fully_connected_networks.py`
+- `A3/convolutional_networks.py`
+
+**子作业笔记：**
+- `A3/README.md`
+
+**这份笔记重点覆盖：**
+- A3 总体主线
+- CNN 原理
+- CNN 实现难点
+- backward 和 shape 易错点
 
 ---
 
-### A4 — 目标检测
+### 2020FA_A4 — Autograd、CNN、ResNet、可视化、风格迁移与 Captioning
 
-| 文件 | 内容 |
-|------|------|
-| `one_stage_detector.py` | FCOS 单阶段检测器：Anchor-free，回归中心点偏移 + 类别 |
-| `two_stage_detector.py` | Faster R-CNN 双阶段检测器：RPN + RoI Pooling + 分类头 |
+**主题：**
+- PyTorch Autograd
+- CNN / `nn.Module` / `nn.Sequential`
+- ResNet
+- Network Visualization
+- Style Transfer
+- RNN / LSTM / Attention Captioning
 
-**核心知识点：**
-- Anchor-free 检测（FCOS）
-- Region Proposal Network (RPN)
-- IoU 计算、NMS 后处理
-- 多任务损失（分类 + 回归）
+**核心能力：**
+- 理解动态计算图与自动求导
+- 从裸张量实现过渡到模块化搭建 CNN
+- 掌握残差网络的结构设计
+- 理解 saliency / adversarial / class visualization 的输入梯度用法
+- 在特征空间中定义内容损失与风格损失
+- 理解图像描述中的序列建模与注意力机制
+
+**主要文件：**
+- `2020FA_A4/pytorch_autograd_and_nn.py`
+- `2020FA_A4/network_visualization.py`
+- `2020FA_A4/style_transfer.py`
+- `2020FA_A4/rnn_lstm_attention_captioning.py`
+
+**子作业笔记：**
+- `2020FA_A4/README.md`
+
+**这份笔记重点覆盖：**
+- Autograd 与 CNN 实现主线
+- ResNet 结构理解
+- 网络可视化与对输入求梯度
+- Style Transfer 的损失设计
+- 从视觉模型过渡到 Captioning
 
 ---
 
-### A5 — 序列模型 & 图像描述
+### A5 — 序列模型 & 图像描述 / Transformer
 
-| 文件 | 内容 |
-|------|------|
-| `rnn_lstm_captioning.py` | RNN / LSTM 手动实现，图像描述（Image Captioning） |
-| `transformers.py` | Self-Attention、Multi-Head Attention、Transformer Decoder |
+**主题：**
+- RNN / LSTM
+- Attention
+- Transformer
+- 图像描述（Image Captioning）
 
-**核心知识点：**
-- RNN / LSTM 前向与反向（BPTT）
-- Attention 机制与 Transformer
-- 序列生成（Greedy / Beam Search）
-- 视觉特征与语言模型结合
+**核心能力：**
+- 序列建模
+- Teacher Forcing / 推理
+- Self-Attention
+- Encoder-Decoder Transformer
+
+**主要文件：**
+- `A5/rnn_lstm_captioning.py`
+- `A5/transformers.py`
+
+**子作业笔记：**
+- `A5/README_Transformer_A5_笔记.md`
+
+**这份笔记重点覆盖：**
+- Transformer 原理
+- 训练 / 推理主线
+- Multi-Head Attention
+- Positional Encoding
+- 个人难点整理
 
 ---
 
 ### A6 — 生成模型
 
-| 文件 | 内容 |
-|------|------|
-| `gan.py` | GAN 训练：判别器 + 生成器损失，DCGAN |
-| `vae.py` | 变分自编码器：ELBO、重参数化技巧 |
-| `style_transfer.py` | 神经风格迁移：Gram Matrix、内容损失 + 风格损失 |
-| `network_visualization.py` | Saliency Map、Fooling Image、Class Visualization |
+**主题：**
+- VAE / CVAE
+- GAN / LSGAN
+- DCGAN
 
-**核心知识点：**
-- GAN 的 minimax 训练稳定性
-- VAE 的 KL 散度 + 重参数化
-- Gram Matrix 与风格表示
-- 梯度上升可视化
+**核心能力：**
+- 概率生成模型理解
+- 重参数化技巧
+- ELBO / KL 散度
+- 对抗训练与稳定性
+- 卷积式生成模型
+
+**主要文件：**
+- `A6/vae.py`
+- `A6/gan.py`
+- `A6/variational_autoencoders.ipynb`
+- `A6/generative_adversarial_networks.ipynb`
+
+**子作业笔记：**
+- `A6/README.md`
+
+**这份笔记重点覆盖：**
+- VAE / CVAE 实现
+- GAN / LSGAN / DCGAN 实现
+- 数学原理总结
+- 难点、易错点与复习清单
 
 ---
 
 ### Mini Project
 
-课程自选项目，详见 [`Mini_Project/`](Mini_Project/) 目录。
+课程自选项目。
+
+**目录：**
+- `Mini_Project/`
+
+---
+
+## 学习路线建议
+
+推荐按下面的顺序复习：
+
+```text
+A1 → A2 → A3 → A4 → A5 → A6
+```
+
+对应能力递进：
+
+1. **A1**：先建立向量化思维和 PyTorch 基础
+2. **A2**：学会 loss、梯度、最基本训练流程
+3. **A3**：学会深层网络模块化，以及 CNN 的核心机制
+4. **2020FA_A4**：理解 autograd、CNN/ResNet、可视化与 style transfer，并接触 captioning
+5. **A5**：系统学习序列建模与 Transformer
+6. **A6**：进入生成模型，理解更高级的建模思想
+
+---
+
+## 各作业复习定位
+
+| 作业 | 主题 | 难度 | 复习关键词 |
+|------|------|------|------------|
+| A1 | KNN / PyTorch 入门 | ★☆☆☆☆ | 向量化、广播、L2 距离 |
+| A2 | 线性分类器 / 两层网络 | ★★☆☆☆ | SVM、Softmax、手动梯度、SGD |
+| A3 | MLP / CNN | ★★★☆☆ | 模块化、Dropout、BatchNorm、卷积 backward |
+| 2020FA_A4 | Autograd / CNN / ResNet / Visualization / Style Transfer / Captioning | ★★★★☆ | 动态计算图、残差连接、输入梯度、风格损失、Attention |
+| A5 | RNN / LSTM / Transformer | ★★★★☆ | Attention、Mask、Positional Encoding、解码 |
+| A6 | Generative Models | ★★★★★ | ELBO、KL、Reparameterization、GAN 稳定性 |
+
+---
+
+## README 导航表
+
+为了以后查笔记更快，这里做一个统一入口：
+
+| 目录 | 笔记文件 | 状态 | 主要内容 |
+|------|-----------|------|----------|
+| `A1` | `A1/README.md` | 已整理 | KNN、PyTorch 基础、向量化 |
+| `A2` | `A2/README.md` | 已整理 | SVM、Softmax、Two-Layer Net |
+| `A3` | `A3/README.md` | 已整理 | FC Net、CNN、实现难点 |
+| `2020FA_A4` | `2020FA_A4/README.md` | 已整理 | Autograd、ResNet、可视化、风格迁移 |
+| `A5` | `A5/README_Transformer_A5_笔记.md` | 已整理 | Transformer 原理与难点 |
+| `A6` | `A6/README.md` | 已整理 | VAE / GAN / DCGAN 笔记 |
 
 ---
 
 ## 环境配置
 
 ```bash
-# 推荐使用 conda 或 venv
 pip install torch torchvision
 pip install jupyter matplotlib numpy
 ```
 
-> 所有实现块均禁止使用 `.to()` / `.cuda()`，设备管理由框架统一处理。
+如果后续重新跑 notebook，优先检查：
+
+- Python 环境是否一致
+- `torch` / `torchvision` 是否可用
+- notebook 中的路径是否与本地目录一致
 
 ---
 
-## 学习路线建议
+## 后续维护规则
 
-```
-A1（基础）→ A2（线性模型 + 手动梯度）→ A3（深层网络 + 优化器）
-         → A4（检测）→ A5（序列模型）→ A6（生成模型）
-```
+为了避免主 README 越写越臃肿，后续建议遵守：
 
-| 作业 | 难度 | 重点能力 |
-|------|------|----------|
-| A1 | ★☆☆☆☆ | 向量化思维、PyTorch 基础 |
-| A2 | ★★☆☆☆ | 手动梯度推导、Loss 设计 |
-| A3 | ★★★☆☆ | 模块化、优化器、BatchNorm |
-| A4 | ★★★★☆ | 检测框架、多任务损失 |
-| A5 | ★★★★☆ | 序列建模、Attention |
-| A6 | ★★★★★ | 生成模型、高级可视化 |
+- **主目录 `README.md`**：只记录大纲、导航、总览
+- **各子目录 README**：记录详细推导、难点、易错点、实现笔记
+
+这样结构最清晰，也方便以后继续补充 A1 / A4 的独立笔记。
 

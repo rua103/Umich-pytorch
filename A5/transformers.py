@@ -690,6 +690,13 @@ def get_subsequent_mask(seq):
     N, K = seq.shape
     mask = torch.triu(torch.ones(K, K, device=seq.device, dtype=torch.bool), diagonal=1)
     mask = mask.unsqueeze(0).expand(N, -1, -1)
+    """
+    为什么要用 expand 而不是写个 for 循环或者复制？
+
+    这是一个极其优雅的工程技巧,叫做内存共享(Memory-sharing view):
+    因为同一个 Batch 里的每一个样本,它们需要的“不能看未来”的规则是完全一模一样的。
+    使用 expand 不会真正在内存里复制 N 份矩阵,它只是创建了一个“视图(View)”。这使得它在处理大 Batch 时,速度极快且极其节省显存。
+    """
     ##############################################################################
     #               END OF YOUR CODE                                             #
     ##############################################################################
@@ -800,6 +807,13 @@ class DecoderBlock(nn.Module):
         in input as enc_inp which is the encoder output and a tensor dec_inp which
         is the target sequence shifted by one in case of training and an initial
         token "BOS" during inference
+
+        The architecture is as follows:
+        
+        inp - masked_multi_head_attention - out1 - layer_norm(inp + out1) - \
+        dropout - (out2 and enc_out) -  multi_head_attention - out3 - \
+        layer_norm(out3 + out2) - dropout - out4 - feed_forward - out5 - \
+        layer_norm(out5 + out4) - dropout - out
         """
         y = None
         ##########################################################################

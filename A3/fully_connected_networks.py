@@ -43,7 +43,7 @@ class Linear(object):
         # Replace "pass" statement with your code
         N = x.shape[0]
         x_row = x.reshape(N, -1)
-
+        
         dx = dout.mm(w.t()).reshape(x.shape)
         dw = x_row.t().mm(dout)
         db = torch.sum(dout, dim=0)
@@ -388,7 +388,7 @@ class FullyConnectedNet(object):
             out, cache = Linear_ReLU.forward(
                 out, self.params[f'W{i + 1}'], self.params[f'b{i + 1}'])
             layer_caches.append(cache)
-            if self.use_dropout:
+          if self.use_dropout:
                 out, dropout_cache = Dropout.forward(out, self.dropout_param)
                 dropout_caches.append(dropout_cache)
 
@@ -426,8 +426,8 @@ class FullyConnectedNet(object):
         grads[f'b{self.num_layers}'] = db
 
         for i in range(self.num_layers - 2, -1, -1):
-            if self.use_dropout:
-                dout = Dropout.backward(dout, dropout_caches[i])
+          if self.use_dropout:
+            dout = Dropout.backward(dout, dropout_caches[i])
             dout, dW, db = Linear_ReLU.backward(dout, layer_caches[i])
             grads[f'W{i + 1}'] = dW + self.reg * self.params[f'W{i + 1}']
             grads[f'b{i + 1}'] = db
