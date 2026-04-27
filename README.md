@@ -278,30 +278,3 @@ A1 → A2 → A3 → A4 → A5 → A6
 | `2020FA_A4` | `2020FA_A4/README.md` | 已整理 | Autograd、ResNet、可视化、风格迁移 |
 | `A5` | `A5/README_Transformer_A5_笔记.md` | 已整理 | Transformer 原理与难点 |
 | `A6` | `A6/README.md` | 已整理 | VAE / GAN / DCGAN 笔记 |
-
----
-
-## 环境配置
-
-```bash
-pip install torch torchvision
-pip install jupyter matplotlib numpy
-```
-
-如果后续重新跑 notebook，优先检查：
-
-- Python 环境是否一致
-- `torch` / `torchvision` 是否可用
-- notebook 中的路径是否与本地目录一致
-
----
-
-## 后续维护规则
-
-为了避免主 README 越写越臃肿，后续建议遵守：
-
-- **主目录 `README.md`**：只记录大纲、导航、总览
-- **各子目录 README**：记录详细推导、难点、易错点、实现笔记
-
-这样结构最清晰，也方便以后继续补充 A1 / A4 的独立笔记。
-
